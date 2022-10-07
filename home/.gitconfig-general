@@ -1,0 +1,13 @@
+[core]
+	editor = vim
+[receive]
+	denyCurrentBranch = warn
+[grep]
+    lineNumber = true
+    extendedRegexp = true
+[alias]
+	see = log --oneline --graph --all
+	last = log --show-signature -1 HEAD
+	review = !git log --pretty=medium --abbrev-commit "$(git for-each-ref --format='%(upstream:short)' "$(git symbolic-ref -q HEAD)").."
+	s = status --short --branch
+
