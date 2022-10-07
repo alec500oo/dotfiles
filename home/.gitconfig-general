@@ -1,3 +1,5 @@
+[init]
+	defaultBranch = mainline
 [core]
 	editor = vim
 [receive]
