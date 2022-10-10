@@ -1,0 +1,4 @@
+# .gitignore
+
+# Ignore .vim/plugged since it can be regenerated
+**/plugged
