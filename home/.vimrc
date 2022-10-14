@@ -19,6 +19,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 
 " File type plugins
+Plug 'sheerun/vim-polyglot'
 Plug 'cstrahan/vim-capnp'
 
 " Linting Engine
@@ -26,6 +27,8 @@ Plug 'dense-analysis/ale'
 
 " Compleation Engine
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug '~/.vim/dracula-pro'
 
 call plug#end()
 " }}}
@@ -206,5 +209,8 @@ highlight clear SignColumn
 
 " Put signs in the same line as numbers
 set signcolumn=number
+
+" Set scheme to Dracula Pro (if it exists)
+silent! colorscheme dracula_pro_van_helsing
 " }}}
 
