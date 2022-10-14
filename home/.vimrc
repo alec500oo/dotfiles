@@ -1,6 +1,9 @@
 " This is my vim config file
 " Alec Matthews <me@alecmatthews.dev>
 
+" Only use lsp server from coc.nvim
+let g:ale_disable_lsp = 1
+
 " Plugins {{{
 " Auto-install vim-plug
 let vim_plug_data_dir = '~/.vim'
@@ -11,9 +14,19 @@ endif
 
 call plug#begin()
 Plug 'junegunn/vim-plug'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-surround'
 
 " File type plugins
 Plug 'cstrahan/vim-capnp'
+
+" Linting Engine
+Plug 'dense-analysis/ale'
+
+" Compleation Engine
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 call plug#end()
 " }}}
 
@@ -26,9 +39,54 @@ filetype on
 filetype indent on
 syntax on
 set showcmd
+set updatetime=300
 
 " Search Settings
 set incsearch hlsearch
+
+" coc.nvim {{{
+function! CheckBackspace() abort
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1] =~# '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+	\ coc#pum#visible() ? coc#pum#next(1) :
+	\ CheckBackspace() ? "\<TAB>" :
+	\ coc#refresh()
+inoremap <silent><expr> <S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+inoremap <silent><expr> <c-@> coc#refresh()
+
+" Navigate Diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-previous)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Navigate lint errors
+nmap <silent> [w <Plug>(ale_previous)
+nmap <silent> ]w <Plug>(ale_next)
+
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Rename
+nmap <leader>rn <Plug>(coc-rename)
+" }}}
+
+" Backup, Swap, and Undo {{{
+" Don't write backup file
+set nobackup nowritebackup
+
+if exists("*mkdir")
+	set swapfile directory^=$HOME/.vim/swap//
+	if !isdirectory(&directory)
+		call mkdir(&directory, 'p', 0o700)
+	endif
+endif
+" }}}
 
 " Abbreviations {{{
 iabbrev @@ me@alecmatthews.dev
@@ -100,6 +158,21 @@ augroup filetype_vim
 	autocmd FileType vim setlocal foldmethod=marker
 augroup END
 
+augroup filetype_capnp
+	autocmd!
+	autocmd FileType capnp setlocal autoindent tabstop=2 shiftwidth=2 expandtab
+augroup END
+
+augroup filetype_python
+	autocmd!
+	autocmd FileType python setlocal autoindent tabstop=4 shiftwidth=4 expandtab
+augroup END
+
+augroup filetype_json
+	autocmd!
+	autocmd FileType json setlocal autoindent tabstop=4 shiftwidth=4 expandtab
+augroup END
+
 augroup filetype_c
 	autocmd FileType c setlocal nowrap
 	autocmd FileType c nnoremap <localleader>c I//<esc>
@@ -121,9 +194,17 @@ augroup END
 set laststatus=2	" Always show statusline
 set statusline=%r	" Read-only
 set statusline+=%m	" Modified
-set statusline+=%.24F	" File path
+set statusline+=%.32F	" File path
 set statusline+=\ %y	" Deduced file type
 set statusline+=%=	" Switch to right side
 set statusline+=%v,\ %l/%L	" Ruler
 "}}}
+
+" Editor Look {{{
+" Remove color from empty space in SignColumn
+highlight clear SignColumn
+
+" Put signs in the same line as numbers
+set signcolumn=number
+" }}}
 
