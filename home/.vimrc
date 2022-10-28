@@ -90,6 +90,9 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
 " }}}
 
+call ale#handlers#cspell#DefineLinter('capnp')
+call ale#handlers#cspell#DefineLinter('gitcommit')
+
 " Backup, Swap, and Undo {{{
 " Don't write backup file
 set nobackup nowritebackup
@@ -220,6 +223,9 @@ highlight clear SignColumn
 
 " Put signs in the same line as numbers
 set signcolumn=number
+
+packadd! dracula_pro
+let g:dracula_colorterm = 0
 
 " Set scheme to Dracula Pro (if it exists)
 silent! colorscheme dracula_pro_van_helsing
