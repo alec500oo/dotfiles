@@ -4,6 +4,17 @@
 " Only use lsp server from coc.nvim
 let g:ale_disable_lsp = 1
 
+" Coc extentions to auto-install
+let g:coc_global_extensions = [
+			\'coc-docker',
+			\'coc-git',
+			\'coc-highlight',
+			\'coc-markdownlint',
+			\'coc-pyright',
+			\'coc-rust-analyzer',
+			\'coc-sh',
+			\'coc-yaml']
+
 " Plugins {{{
 " Auto-install vim-plug
 let vim_plug_data_dir = '~/.vim'
