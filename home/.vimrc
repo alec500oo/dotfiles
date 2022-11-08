@@ -8,6 +8,7 @@ let g:ale_disable_lsp = 1
 let g:coc_global_extensions = [
 			\'coc-docker',
 			\'coc-git',
+			\'coc-go',
 			\'coc-highlight',
 			\'coc-markdownlint',
 			\'coc-pyright',
